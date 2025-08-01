@@ -21,7 +21,7 @@ El banco de videos usado en este proyecto fue extraído del sitio web [SpreadThe
 4. **Traducción a Señas:**  
    El texto se interpreta y se asocia a un video en lenguaje de señas previamente almacenado, el cual se muestra al usuario.
    Ejemplo de algunos archivos de video:
-   <img width="1046" height="511" alt="image" src="https://github.com/user-attachments/assets/f6eac9eb-0c0b-482e-b78d-24f5775862fb" />
+   <img width="1046" auto alt="image" src="https://github.com/user-attachments/assets/f6eac9eb-0c0b-482e-b78d-24f5775862fb" />
 
 
 ---
@@ -32,3 +32,30 @@ El banco de videos usado en este proyecto fue extraído del sitio web [SpreadThe
 |---------------------|------------------------------------------------|
 | Pendiente               | Pendiente         |
 ---
+
+
+---
+
+
+## Prototipos
+
+
+### Versión 1
+
+Pendiente publicar
+
+
+### Versión 2
+
+
+Diagrama:
+
+
+   <img width="1046" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/main/photos/diagrama-v2.png" />
+
+   
+Prototipo:
+
+
+   <img width="1046" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/main/photos/prototipo-v2.jpg" />
+
