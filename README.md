@@ -33,16 +33,16 @@ El banco de videos usado en este proyecto fue extraído del sitio web [SpreadThe
 | Pendiente               | Pendiente         |
 ---
 
-
----
-
-
-## Images y Diagramas de Prototipos del Microcontrolador
+## ⚙️ Diagramas y Prototipos del Microcontrolador
 
 
 ### Versión 1 ♦️
 
-Pendiente publicar
+<details>
+   <summary>Diagrama</summary>
+   <img width="1046" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/main/photos/prototipo-v1.png" />
+
+</details>
 
 
 ### Versión 2 ♦️
@@ -62,4 +62,4 @@ Pendiente publicar
    <img width="1046" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/main/photos/prototipo-v2.jpg" />
 
 
-<details/>
+</details>
