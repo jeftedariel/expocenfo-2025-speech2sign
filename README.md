@@ -26,11 +26,16 @@ El banco de videos usado en este proyecto fue extraído del sitio web [SpreadThe
 
 ---
 
-## 🔧 Tecnologías Utilizadas
+## 🔧 Componentes Utilizados
 
 | Componente          | Descripción                                    |
 |---------------------|------------------------------------------------|
-| Pendiente               | Pendiente         |
+| [IDEABoard ESP32  ](https://www.crcibernetica.com/crcibernetica-ideaboard/)             | Placa y Microcontrolador         |
+|[Electret Microphone](https://www.crcibernetica.com/breakout-board-for-electret-microphone/?searchid=2464241&search_query=electret+mic)| Microfono analogo para la captura de voz|
+|2x [Push Button](https://www.crcibernetica.com/mini-push-button-switch/?searchid=2464245&search_query=button)| Pulsadores para envio de instrucciones|
+|[Potentiometer](https://www.crcibernetica.com/rotary-potentiometer-20-kohms/?searchid=2464252&search_query=potentiometer)| Potenciometro para manejo de volumen|
+|[High Precision Power Bank Module 5V@2A](https://www.crcibernetica.com/high-precision-power-bank-module-5v-2a-listo/?searchid=2464259&search_query=High+Precision+Power+Bank+Module+5V%402A) o Similar| Modulo de carga para la bateria |
+|[Li-Ion Battery 2500mAh 3.7V](https://www.crcibernetica.com/samsung-li-ion-battery-18650-2500mah-3-7v/?searchid=0&search_query=battery) o Similar| Bateria para el uso del microcontrolador sin necesidad de cables|
 ---
 
 ## Integrantes de Proyecto
