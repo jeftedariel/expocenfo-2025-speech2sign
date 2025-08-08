@@ -51,7 +51,7 @@ El banco de videos usado en este proyecto fue extraído del sitio web [SpreadThe
 ## ⚙️ Diagramas y Prototipos del Microcontrolador
 
 
-### Versión 1 ♦️
+### Versión 0.1 ♦️
 
 <details>
    <summary>Diagrama</summary>
@@ -60,7 +60,7 @@ El banco de videos usado en este proyecto fue extraído del sitio web [SpreadThe
 </details>
 
 
-### Versión 2 ♦️
+### Versión 0.2 ♦️
 
 <details>
    <summary>Diagrama</summary>
@@ -76,7 +76,7 @@ El banco de videos usado en este proyecto fue extraído del sitio web [SpreadThe
 
 </details>
 
-### Versión 3 ♦️
+### Versión 0.3 ♦️
 
 <details>
    <summary>Diagrama</summary>
@@ -95,7 +95,7 @@ El banco de videos usado en este proyecto fue extraído del sitio web [SpreadThe
 </details>
 
 
-### Versión 4 ♦️
+### Versión 0.4 ♦️
 
 <details>
    <summary>Diagrama</summary>
