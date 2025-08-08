@@ -48,7 +48,6 @@ El banco de videos usado en este proyecto fue extraído del sitio web [SpreadThe
 |**Daniel Saborio**|Diseño y Modelado 3D|
 
 ---
-
 ## ⚙️ Diagramas y Prototipos del Microcontrolador
 
 
@@ -56,7 +55,7 @@ El banco de videos usado en este proyecto fue extraído del sitio web [SpreadThe
 
 <details>
    <summary>Diagrama</summary>
-   <img width="1046" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/main/photos/diagrama-v1.png" />
+   <img width="1046" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/main/photos/diagrama-v0.1.png" />
 
 </details>
 
@@ -65,14 +64,14 @@ El banco de videos usado en este proyecto fue extraído del sitio web [SpreadThe
 
 <details>
    <summary>Diagrama</summary>
-   <img width="1046" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/main/photos/diagrama-v2.png" />
+   <img width="1046" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/main/photos/diagrama-v0.2.png" />
 
 </details>
 <details>
 <Summary>Prototipo Armado</Summary>
 
 
-   <img width="1046" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/main/photos/prototipo-v2.jpg" />
+   <img width="1046" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/main/photos/prototipo-v0.2.jpg" />
 
 
 </details>
@@ -81,7 +80,7 @@ El banco de videos usado en este proyecto fue extraído del sitio web [SpreadThe
 
 <details>
    <summary>Diagrama</summary>
-   <img width="1046" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/main/photos/diagrama-v3.png" />
+   <img width="1046" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/main/photos/diagrama-v0.3.png" />
 
 </details>
 
@@ -90,7 +89,26 @@ El banco de videos usado en este proyecto fue extraído del sitio web [SpreadThe
 <Summary>Prototipo Armado</Summary>
 
 
-   <img width="1046" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/main/photos/prototipo-v3.jpg" />
+   <img width="1046" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/main/photos/prototipo-v0.3.jpg" />
+
+
+</details>
+
+
+### Versión 4 ♦️
+
+<details>
+   <summary>Diagrama</summary>
+   <img width="1046" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/main/photos/diagrama-v0.4.png" />
+
+</details>
+
+   
+<details>
+<Summary>Prototipo Armado</Summary>
+
+
+   <img width="1046" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/main/photos/prototipo-v0.4.jpg" />
 
 
 </details>
