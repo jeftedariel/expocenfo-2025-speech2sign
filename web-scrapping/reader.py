@@ -1,34 +1,25 @@
-import os
-import json
+import os  
+import json  
 
 def get_videos():
-    # Configuración
-    videos_dir = "videos"
-    output_file = "videos_disponibles.json"
-    
-    # Verificar si la carpeta existe
-    if not os.path.exists(videos_dir):
-        print(f"Error: La carpeta '{videos_dir}' no existe.")
-        return
-    
-    # Obtener todos los archivos en la carpeta (excluyendo subdirectorios)
-    video_files = [f for f in os.listdir(videos_dir) 
-                  if os.path.isfile(os.path.join(videos_dir, f))]
-    
-    # Extraer nombres sin extensión
-    videos = [os.path.splitext(f)[0] for f in video_files]
-    
-    # Crear estructura JSON
-    result = {
-        "total_videos": len(videos),
-        "videos": videos
-    }
-    
-    # Guardar como JSON
-    with open(output_file, 'w', encoding='utf-8') as f:
-        json.dump(result, f, ensure_ascii=False, indent=2)
-    
-    print(f"Se han guardado {len(videos)} nombres en '{output_file}'")
+    try:
+        videos = [entry.name[:-4] for entry in os.scandir("videos")  # Esto se hace para quitar guardar el nombre de la palabra sin la extensión mp4
+                  if entry.is_file() and entry.name.endswith('.mp4')]  # Filtra solo archivos que terminen en '.mp4'
+        
+        data = {  
+            "total_palabras": len(videos), 
+            "palabras": videos 
+        }
+        
+        with open("videos_disponibles.json", 'w', encoding='utf-8') as f:  # Abre el archivo JSON para escritura con codificación UTF-8
+            json.dump(data, f, indent=4, ensure_ascii=False)  # Guarda 'data' en formato JSON
+        
+        print(f"Guardados {len(videos)} videos en 'videos_disponibles.json'")  
+        
+    except FileNotFoundError:  
+        print("Error: Carpeta 'videos' no existe")
+    except PermissionError:  
+        print("Error: Sin permisos para escribir archivo")
 
-if __name__ == "__main__":
-    get_videos()
+if __name__ == "__main__":  
+    get_videos(), 
