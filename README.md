@@ -107,23 +107,20 @@ El banco de videos usado en este proyecto fue extraído del sitio web [SpreadThe
 <details>
 <Summary>Prototipo Armado</Summary>
 
-### Modelo 3D para el Idea Board
-   <img width="720" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/main/photos/prototipo-v0.4.jpg" />
-
-
+### Modelo 3D 🚀
 </details>
 
-### Modelo 3D 🚀
+
    
-   <img width="300px" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/Modelo_3D/photos/FOTOCASE3.png" />
+   <img width="300px" height=auto alt="image" src="https://github.com/jeftedariel/expocenfo-2025-speech2sign/blob/main/photos/FOTOCASE3.png?raw=true" />
    <details>
    <Summary>Mas perspectivas</Summary>
-      <img width="500" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/Modelo_3D/photos/FOTOCASE2.png" />
-         <img width="500" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/Modelo_3D/photos/FOTOCASE.png" />
+      <img width="500" height=auto alt="image" src="https://github.com/jeftedariel/expocenfo-2025-speech2sign/blob/main/photos/FOTOCASE2.png?raw=true" />
+         <img width="500" height=auto alt="image" src="https://github.com/jeftedariel/expocenfo-2025-speech2sign/blob/main/photos/FOTOCASE.png?raw=true" />
    </details>
 <details>
 <Summary>Interior del modelo</Summary>
-         <img width="500" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/Modelo_3D/photos/interiorr.png" />
+         <img width="500" height=auto alt="image" src="https://github.com/jeftedariel/expocenfo-2025-speech2sign/blob/main/photos/interiorr.png?raw=true" />
 
 </details>
 
