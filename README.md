@@ -106,9 +106,12 @@ El banco de videos usado en este proyecto fue extraído del sitio web [SpreadThe
    
 <details>
 <Summary>Prototipo Armado</Summary>
+   <img width="1046" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/main/photos/prototipo-v0.4.jpg" />
+
+</details>
+
 
 ### Modelo 3D 🚀
-</details>
 
 
    
