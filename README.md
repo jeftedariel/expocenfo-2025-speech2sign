@@ -113,9 +113,9 @@ El banco de videos usado en este proyecto fue extraído del sitio web [SpreadThe
 
 </details>
 
-### Modelo 3D para el Idea Board 🚀
+### Modelo 3D 🚀
    
-   <img width="500" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/Modelo_3D/photos/FOTOCASE3.png" />
+   <img width="300px" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/Modelo_3D/photos/FOTOCASE3.png" />
    <details>
    <Summary>Mas perspectivas</Summary>
       <img width="500" height=auto alt="image" src="https://raw.githubusercontent.com/jeftedariel/expocenfo-2025-speech2sign/refs/heads/Modelo_3D/photos/FOTOCASE2.png" />
