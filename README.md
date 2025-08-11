@@ -44,7 +44,7 @@ El banco de videos usado en este proyecto fue extraído del sitio web [SpreadThe
 |---------------------|------------------------------------------------|
 | **Jefté Mendoza**             | Electrónica, WebScrapping, Desarrollo del microcontrolador e integracion de videos         |
 |**Justin Rodriguez**|Desarrollo de interfaz y manejo del audio para interpretación del LLM  |
-|**Alex Ledezma**|Diseño y Modelado 3D|
+|**Alex Ledezma**|Mediciones de Componentes, Optimización de Codigo|
 |**Daniel Saborio**|Diseño y Modelado 3D|
 
 ---
