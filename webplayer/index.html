@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Speech2Sign</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    #videoPlayer {
+      width: 80%;
+      max-width: 800px;
+      border: 2px solid #333;
+      box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+      background-color: #000;
+    }
+
+    #message {
+      display: none;
+    }
+
+    #progress {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Speech2Sign</h1>
+  <video id="videoPlayer" autoplay muted playsinline></video>
+  <p id="message"></p>
+  <p id="progress"></p>
+  <script>
+    const videoPlayer = document.getElementById('videoPlayer');
+    const message = document.getElementById('message');
+    const progress = document.getElementById('progress');
+    let playlist = [];
+    let currentVideoIndex = 0;
+    let skippedVideos = [];
+
+    function getPlaylistFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      const lista = params.get("lista");
+      if (!lista) return [];
+      try {
+        const parsed = JSON.parse(decodeURIComponent(lista));
+        if (Array.isArray(parsed) && parsed.every(item => typeof item === "string")) {
+          return parsed.map(name => `${name}.mp4`);
+        }
+      } catch (e) {
+        console.error("Error al interpretar la lista:", e);
+      }
+      return [];
+    }
+
+    function updateProgress() {
+      if (playlist.length > 0) {
+        progress.textContent = `Video ${currentVideoIndex + 1} de ${playlist.length}`;
+      }
+    }
+
+    function playNextVideo() {
+      currentVideoIndex++;
+      if (currentVideoIndex < playlist.length) {
+        loadVideo(playlist[currentVideoIndex]);
+      } else {
+        // Lista finalizada
+        let finalMessage = "Lista de reproducción finalizada.";
+        if (skippedVideos.length > 0) {
+          finalMessage += ` Videos omitidos: ${skippedVideos.join(', ')}`;
+        }
+        message.textContent = finalMessage;
+        progress.textContent = "";
+      }
+    }
+
+    function loadVideo(filename) {
+      message.textContent = `Cargando: ${filename.replace('.mp4', '')}`;
+      updateProgress();
+
+      videoPlayer.src = `videos/${filename}`;
+      videoPlayer.load();
+
+      // Manejar cuando el video se puede reproducir
+      videoPlayer.oncanplay = () => {
+        videoPlayer.playbackRate = 1.5;
+        videoPlayer.play().catch(error => {
+          console.error("Error al reproducir:", error);
+          message.textContent = `Error al reproducir ${filename}`;
+          // Intentar con el siguiente video después de un breve delay
+          setTimeout(() => {
+            skippedVideos.push(filename.replace('.mp4', ''));
+            playNextVideo();
+          }, 1000);
+        });
+      };
+
+      // Manejar errores de carga del video
+      videoPlayer.onerror = (error) => {
+        console.error("Error al cargar el video:", error);
+        console.log(`Video no encontrado: ${filename}`);
+        skippedVideos.push(filename.replace('.mp4', ''));
+        message.textContent = `Video no encontrado: ${filename.replace('.mp4', '')}, continuando...`;
+        // Continuar con el siguiente video después de un breve delay
+        setTimeout(() => {
+          playNextVideo();
+        }, 1000);
+      };
+
+      // Manejar cuando no se puede cargar los metadatos
+      videoPlayer.onloadstart = () => {
+        // Timeout para videos que no cargan
+        setTimeout(() => {
+          if (videoPlayer.readyState === 0) {
+            console.log(`Timeout cargando: ${filename}`);
+            skippedVideos.push(filename.replace('.mp4', ''));
+            message.textContent = `Timeout cargando: ${filename.replace('.mp4', '')}, continuando...`;
+            playNextVideo();
+          }
+        }, 5000); // 5 segundos de timeout
+      };
+    }
+
+    // Cuando termina un video, pasar al siguiente
+    videoPlayer.addEventListener('ended', () => {
+      playNextVideo();
+    });
+
+    // Inicializar
+    playlist = getPlaylistFromURL();
+    if (playlist.length > 0) {
+      loadVideo(playlist[currentVideoIndex]);
+    } else {
+      message.textContent = "No se encontró una lista válida en la URL.";
+    }
+  </script>
+</body>
+
+</html>
