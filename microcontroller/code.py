@@ -1,65 +1,79 @@
-import time
-import array
-import math
 import board
-import analogio
-import struct
-from ideaboard import IdeaBoard
+import digitalio
+import time
 
+# Configurar botones en IO04 e IO05
+button1 = digitalio.DigitalInOut(board.IO4)
+button1.direction = digitalio.Direction.INPUT
+button1.pull = digitalio.Pull.DOWN  # Pull-down interno
 
-# Configuración del micrófono
-MIC_PIN = board.IO27
-SAMPLE_RATE_HZ = 10000     # Valor deseado (aprox)
-RECORD_SECONDS = 5
-ib = IdeaBoard()
+button2 = digitalio.DigitalInOut(board.IO5)
+button2.direction = digitalio.Direction.INPUT
+button2.pull = digitalio.Pull.DOWN  # Pull-down interno
 
-BUFFER_SIZE = SAMPLE_RATE_HZ * RECORD_SECONDS
+# Variables para debounce
+last_button1_state = False
+last_button2_state = False
+debounce_time = 0.2
 
-# Buffer para audio (16 bits)
-audio_buffer = array.array('H', (0 for _ in range(BUFFER_SIZE)))
+print("Sistema iniciado. Presiona los botones:")
+print("- IO04: Ejecuta record.py")
+print("- IO05: Ejecuta upload.py")
+print("Esperando pulsaciones...")
 
-print("Inicializando ADC...")
-adc = analogio.AnalogIn(MIC_PIN)
-
-print(f"Iniciando grabación de {RECORD_SECONDS} segundos (objetivo {SAMPLE_RATE_HZ} Hz)...")
-print("Por favor, hable ahora...")
-
-# Inicia grabación y mide tiempo real
-t_start = time.monotonic()
-ib.pixel=(0,0,255)
-for i in range(BUFFER_SIZE):
-    audio_buffer[i] = adc.value
-    time.sleep(1.0 / SAMPLE_RATE_HZ)
-t_end = time.monotonic()
-ib.pixel=(0,0,0)
-# Calcular frecuencia real
-frecuencia_real = BUFFER_SIZE / (t_end - t_start)
-print(f"\nGrabación finalizada. Frecuencia real: {frecuencia_real:.2f} Hz")
-
-# Guardar como archivo WAV
-def guardar_wav(nombre_archivo, muestras, sample_rate):
-    with open(nombre_archivo, "wb") as f:
-        # Cabecera WAV
-        f.write(b"RIFF")
-        f.write(struct.pack("<I", 36 + len(muestras) * 2))
-        f.write(b"WAVEfmt ")
-        f.write(struct.pack("<I", 16))  # Subchunk1Size
-        f.write(struct.pack("<H", 1))   # AudioFormat PCM
-        f.write(struct.pack("<H", 1))   # NumChannels (mono)
-        f.write(struct.pack("<I", int(sample_rate)))
-        f.write(struct.pack("<I", int(sample_rate) * 2))  # ByteRate
-        f.write(struct.pack("<H", 2))   # BlockAlign
-        f.write(struct.pack("<H", 16))  # BitsPerSample
-        f.write(b"data")
-        f.write(struct.pack("<I", len(muestras) * 2))
-
-        # Escribir datos (unsigned 16-bit → signed 16-bit)
-        for m in muestras:
-            pcm_val = m - 32768
-            f.write(struct.pack("<h", pcm_val))
-
-# Usar frecuencia real para que el audio no se acelere
-guardar_wav("/grabacion.wav", audio_buffer, frecuencia_real)
-
-print("Grabación guardada como grabacion.wav")
-
+while True:
+    # Leer estado actual de los botones
+    current_button1_state = button1.value
+    current_button2_state = button2.value
+    
+    # Detectar pulsación del botón 1 (IO04) - flanco ascendente
+    if not last_button1_state and current_button1_state:
+        print("Botón IO04 presionado - Ejecutando record.py")
+        time.sleep(debounce_time)  # Debounce
+        
+        try:
+            # Recargar el módulo en caso de que ya esté importado
+            import sys
+            if 'record' in sys.modules:
+                del sys.modules['record']
+            
+            import record
+            
+            # Intentar llamar a main() si existe
+            if hasattr(record, 'main'):
+                record.main()
+            
+            print("record.py ejecutado correctamente")
+        except ImportError:
+            print("Error: No se pudo importar record.py")
+        except Exception as e:
+            print(f"Error ejecutando record.py: {e}")
+    
+    # Detectar pulsación del botón 2 (IO05) - flanco ascendente
+    if not last_button2_state and current_button2_state:
+        print("Botón IO05 presionado - Ejecutando upload.py")
+        time.sleep(debounce_time)  # Debounce
+        
+        try:
+            # Recargar el módulo en caso de que ya esté importado
+            import sys
+            if 'upload' in sys.modules:
+                del sys.modules['upload']
+            
+            import upload
+            
+            # Llamar explícitamente a la función main()
+            upload.main()
+            
+            print("upload.py ejecutado correctamente")
+        except ImportError:
+            print("Error: No se pudo importar upload.py")
+        except Exception as e:
+            print(f"Error ejecutando upload.py: {e}")
+    
+    # Actualizar estados anteriores
+    last_button1_state = current_button1_state
+    last_button2_state = current_button2_state
+    
+    # Pequeña pausa para no sobrecargar el procesador
+    time.sleep(0.05)

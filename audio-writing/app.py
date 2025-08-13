@@ -60,14 +60,7 @@ def transcribe_audio():
         
         text = convert_audio_to_text(filepath)
 
-        # Limpieza
-        try:
-            os.remove(filepath)
-            wav_version = os.path.splitext(filepath)[0] + '.wav'
-            if os.path.exists(wav_version):
-                os.remove(wav_version)
-        except Exception:
-            pass
+
         
         return jsonify({'text': text})
     

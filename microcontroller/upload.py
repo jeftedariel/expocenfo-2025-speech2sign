@@ -1,88 +1,167 @@
 import wifi
 import socketpool
+import gc
 import time
 
-SSID = "Fran1_EXT"
-PASSWORD = "fran1234"
+# Configuración WiFi
+WIFI_SSID = "Fran1_EXT"
+WIFI_PASSWORD = "fran1234"
 
-SERVER_IP = "192.168.1.112"
-SERVER_PORT = 5000
-ENDPOINT = "/transcribe"
-WAV_FILENAME = "grabacion.wav"
+# Configuración del endpoint
+ENDPOINT_URL = "http://192.168.1.112:5000/transcribe"
+AUDIO_FILE = "grabacion.wav"
+CHUNK_SIZE = 512  # 512 bytes por chunk
 
-def connect_wifi(ssid, password):
-    print("Conectando a WiFi...")
-    wifi.radio.connect(ssid, password)
-    print("Conectado con IP:", wifi.radio.ipv4_address)
+class SimpleAudioUploader:
+    def __init__(self):
+        self.pool = None
+        
+    def connect_wifi(self):
+        """Conecta a WiFi"""
+        print("Conectando a WiFi...")
+        try:
+            wifi.radio.connect(WIFI_SSID, WIFI_PASSWORD)
+            print(f"Conectado a {WIFI_SSID}")
+            print(f"IP: {wifi.radio.ipv4_address}")
+            
+            self.pool = socketpool.SocketPool(wifi.radio)
+            return True
+            
+        except Exception as e:
+            print(f"Error conectando WiFi: {e}")
+            return False
+    
+    def get_file_size(self, filename):
+        """Obtiene el tamaño del archivo"""
+        try:
+            import os
+            stat = os.stat(filename)
+            return stat[6]  # st_size
+        except Exception as e:
+            print(f"Error obteniendo tamaño del archivo: {e}")
+            return None
+    
+    def send_audio_raw(self):
+        """Método RAW eliminado - no compatible con Flask que espera multipart"""
+        return False
 
-def send_wav_in_chunks():
-    pool = socketpool.SocketPool(wifi.radio)
-    sock = pool.socket()
-
-    print("Conectando al servidor...")
-    sock.connect((SERVER_IP, SERVER_PORT))
-
-    # Obtener tamaño del archivo WAV
-    with open(WAV_FILENAME, "rb") as f:
-        f.seek(0, 2)  # Ir al final del archivo
-        file_size = f.tell()
-
-    print(f"Tamaño del archivo: {file_size} bytes")
-
-    # Preparar headers HTTP POST
-    headers = (
-        "POST {} HTTP/1.1\r\n"
-        "Host: {}:{}\r\n"
-        "Content-Type: audio/wav\r\n"
-        "Content-Length: {}\r\n"
-        "Connection: close\r\n"
-        "\r\n"
-    ).format(ENDPOINT, SERVER_IP, SERVER_PORT, file_size)
-
-    # Enviar headers
-    sock.send(headers.encode())
-
-    # Enviar archivo en chunks con manejo de EAGAIN
-    chunk_size = 1024
-    with open(WAV_FILENAME, "rb") as f:
-        while True:
-            chunk = f.read(chunk_size)
-            if not chunk:
-                break
-
+    def send_audio(self):
+        """Envía el archivo de audio - versión super simplificada"""
+        
+        # Verificar archivo
+        file_size = self.get_file_size(AUDIO_FILE)
+        if file_size is None:
+            return False
+            
+        print(f"Enviando archivo de {file_size} bytes...")
+        
+        # Crear boundary simple
+        boundary = f"----ESP32Upload{int(time.monotonic())}"
+        
+        # Preparar headers multipart (formato correcto para Flask)
+        multipart_start = f'--{boundary}\r\n'
+        multipart_start += 'Content-Disposition: form-data; name="file"; filename="grabacion.wav"\r\n'
+        multipart_start += 'Content-Type: audio/wav\r\n\r\n'
+        multipart_end = f'\r\n--{boundary}--\r\n'
+        
+        # Calcular tamaño total
+        content_length = len(multipart_start.encode()) + file_size + len(multipart_end.encode())
+        
+        try:
+            # Crear socket
+            sock = self.pool.socket()
+            sock.settimeout(10.0)
+            
+            # Conectar
+            addr_info = self.pool.getaddrinfo("192.168.1.112", 5000)[0]
+            sock.connect(addr_info[-1])
+            print("Conectado al servidor")
+            
+            # Preparar headers HTTP
+            http_headers = f"POST /transcribe HTTP/1.1\r\n"
+            http_headers += f"Host: 192.168.1.112:5000\r\n" 
+            http_headers += f"Content-Type: multipart/form-data; boundary={boundary}\r\n"
+            http_headers += f"Content-Length: {content_length}\r\n"
+            http_headers += f"Connection: close\r\n\r\n"
+            
+            # Enviar headers
+            sock.send(http_headers.encode())
+            sock.send(multipart_start.encode())
+            
+            # Enviar archivo
             bytes_sent = 0
-            while bytes_sent < len(chunk):
-                try:
-                    sent = sock.send(chunk[bytes_sent:])
-                    if sent == 0:
-                        raise RuntimeError("socket connection broken")
-                    bytes_sent += sent
-                except OSError as e:
-                    if e.args[0] == 11:  # EAGAIN
-                        time.sleep(0.01)  # Esperar 10ms y reintentar
-                    else:
-                        raise
-
-    print("Archivo enviado, esperando respuesta...")
-
-    # Recibir respuesta simple
-    response = b""
-    try:
-        while True:
-            data = sock.recv(1024)
-            if not data:
-                break
-            response += data
-    except Exception:
-        pass
-
-    print("Respuesta del servidor:")
-
-    sock.close()
+            with open(AUDIO_FILE, "rb") as f:
+                while True:
+                    if bytes_sent % 10240 == 0:  # GC cada 10KB
+                        gc.collect()
+                    
+                    chunk = f.read(CHUNK_SIZE)
+                    if not chunk:
+                        break
+                    
+                    sock.send(chunk)
+                    bytes_sent += len(chunk)
+                    
+                    # Progreso cada 5%
+                    if bytes_sent % 5000 == 0:
+                        progress = (bytes_sent / file_size) * 100
+                        print(f"{progress:.0f}% ({bytes_sent}/{file_size})")
+                    
+                    time.sleep(0.02)  # Pequeña pausa
+            
+            # Finalizar
+            sock.send(multipart_end.encode())
+            print(f"Archivo enviado: {bytes_sent} bytes")
+            
+            # Cerrar inmediatamente sin esperar respuesta
+            sock.close()
+            
+            # Si enviamos todo, es éxito
+            success = (bytes_sent >= file_size)
+            print(f"Resultado: {'ÉXITO' if success else 'FALLO'}")
+            return success
+            
+        except Exception as e:
+            print(f"Error: {e}")
+            try:
+                sock.close()
+            except:
+                pass
+            return False
 
 def main():
-    connect_wifi(SSID, PASSWORD)
-    send_wav_in_chunks()
+    """Función principal simplificada"""
+    print("=== ESP32 Simple Audio Uploader ===")
+    
+    # Mostrar memoria
+    gc.collect()
+    print(f"Memoria libre: {gc.mem_free()} bytes")
+    
+    uploader = SimpleAudioUploader()
+    
+    # Conectar WiFi
+    if not uploader.connect_wifi():
+        print("FALLO: No se pudo conectar a WiFi")
+        return
+    
+    # Enviar archivo
+    print("\nIniciando envío...")
+    success = uploader.send_audio()
+    
+    if success:
+        print("\n✅ ARCHIVO ENVIADO EXITOSAMENTE")
+    else:
+        print("\n❌ ERROR ENVIANDO ARCHIVO")
+    
+    # Memoria final
+    gc.collect()
+    print(f"Memoria libre final: {gc.mem_free()} bytes")
 
+# Ejecutar
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\nInterrumpido")
+    except Exception as e:
+        print(f"Error crítico: {e}")
