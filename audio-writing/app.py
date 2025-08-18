@@ -17,7 +17,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # Configurar Gemini API
 
-GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', 'AIzaSyAWNFTIeLu68m2-rhIA4VuQzXbQ8Ks_Aj0')
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '#')
 genai.configure(api_key=GEMINI_API_KEY)
 
 # Cargar palabras permitidas
