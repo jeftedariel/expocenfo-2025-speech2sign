@@ -3,14 +3,21 @@ import socketpool
 import gc
 import time
 
+from ideaboard import IdeaBoard
+
+
 # Configuración WiFi
-WIFI_SSID = "Fran1_EXT"
-WIFI_PASSWORD = "fran1234"
+WIFI_SSID = "UTN"
+WIFI_PASSWORD = None
 
 # Configuración del endpoint
-ENDPOINT_URL = "http://192.168.1.112:5000/transcribe"
+IP_ADDRESS = "10.60.40.79"
+PORT = 5000
+ENDPOINT_URL = "/transcribe"
 AUDIO_FILE = "grabacion.wav"
-CHUNK_SIZE = 512  # 512 bytes por chunk
+CHUNK_SIZE = 1024  
+
+ib = IdeaBoard()
 
 class SimpleAudioUploader:
     def __init__(self):
@@ -73,13 +80,13 @@ class SimpleAudioUploader:
             sock.settimeout(10.0)
             
             # Conectar
-            addr_info = self.pool.getaddrinfo("192.168.1.112", 5000)[0]
+            addr_info = self.pool.getaddrinfo(IP_ADDRESS, PORT)[0]
             sock.connect(addr_info[-1])
             print("Conectado al servidor")
             
             # Preparar headers HTTP
             http_headers = f"POST /transcribe HTTP/1.1\r\n"
-            http_headers += f"Host: 192.168.1.112:5000\r\n" 
+            http_headers += f"Host: {IP_ADDRESS}:{PORT}\r\n" 
             http_headers += f"Content-Type: multipart/form-data; boundary={boundary}\r\n"
             http_headers += f"Content-Length: {content_length}\r\n"
             http_headers += f"Connection: close\r\n\r\n"
@@ -130,9 +137,8 @@ class SimpleAudioUploader:
             return False
 
 def main():
-    """Función principal simplificada"""
-    print("=== ESP32 Simple Audio Uploader ===")
-    
+    print("=== ESP32 Audio Uploader ===")
+    ib.pixel=(0,255,0)
     # Mostrar memoria
     gc.collect()
     print(f"Memoria libre: {gc.mem_free()} bytes")
@@ -149,9 +155,9 @@ def main():
     success = uploader.send_audio()
     
     if success:
-        print("\n✅ ARCHIVO ENVIADO EXITOSAMENTE")
+        print("\nARCHIVO ENVIADO EXITOSAMENTE")
     else:
-        print("\n❌ ERROR ENVIANDO ARCHIVO")
+        print("\nERROR ENVIANDO ARCHIVO")
     
     # Memoria final
     gc.collect()
