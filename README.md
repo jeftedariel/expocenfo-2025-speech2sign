@@ -3,7 +3,7 @@
 Este proyecto permite traducir audio a lenguaje de señas utilizando un microcontrolador **ESP32**, un servidor para procesamiento de audio con el uso de **inteligencia artificial**, y un banco de videos en lenguaje de señas. Fue desarrollado como parte de **ExpoCenfo 2025**, con el objetivo de crear una herramienta inclusiva para personas con discapacidad auditiva.
 
 
-El banco de videos usado en este proyecto fue extraído del sitio web  [SpreadTheSign](https://www.spreadthesign.com/)   [Cenarec](https://lesco.cenarec.go.cr)
+El banco de videos usado en este proyecto fue extraído del sitio web ~~[SpreadTheSign](https://www.spreadthesign.com/)~~ Ahora:  [Cenarec](https://lesco.cenarec.go.cr)
 
 ---
 
