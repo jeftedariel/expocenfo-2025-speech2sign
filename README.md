@@ -26,7 +26,9 @@ El banco de videos usado en este proyecto fue extraído del sitio web ~~[SpreadT
 4. **Traducción a Señas:**  
    El texto se interpreta y se asocia a un video en lenguaje de señas previamente almacenado, el cual se muestra al usuario.
    Ejemplo de algunos archivos de video:
-   <img width="1046" height="879" alt="image" src="https://github.com/user-attachments/assets/0229b9ae-d1c7-4e0d-a95e-f092bdbf1a10" />
+   <img width="800" height="879" alt="image" src="https://github.com/user-attachments/assets/0229b9ae-d1c7-4e0d-a95e-f092bdbf1a10" />
+### Diagrama de Funcionamiento
+   <img width="800" height=auto alt="image" src="https://github.com/jeftedariel/expocenfo-2025-speech2sign/blob/main/photos/diagrama-funcionamiento.png?raw=true" />
 
 ---
 
@@ -71,8 +73,6 @@ Tuvimos la oportunidad de reunirnos con un interpete de LESCO de la UTN, quien n
 
 ## ⚙️ Diagramas y Prototipos del Microcontrolador
 
-### Diagrama de Funcionamiento
-   <img width="1046" height=auto alt="image" src="https://github.com/jeftedariel/expocenfo-2025-speech2sign/blob/main/photos/diagrama-funcionamiento.png?raw=true" />
 
 
 ### Versión 0.1 ♦️
