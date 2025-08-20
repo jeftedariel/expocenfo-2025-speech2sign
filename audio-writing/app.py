@@ -17,7 +17,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # Configurar Gemini API
 
-GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '#')
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '*')
 genai.configure(api_key=GEMINI_API_KEY)
 
 # Cargar palabras permitidas
@@ -33,13 +33,14 @@ def convert_audio_to_text_with_gemini(audio_path):
         model = genai.GenerativeModel("gemini-1.5-pro")
         
         prompt = (
-            "Transcribe el audio a texto utilizando EXCLUSIVAMENTE las palabras que se encuentran "
-            "en la siguiente lista JSON. No inventes palabras que no estén en la lista. "
+            "Transcribe el audio a texto utilizando UNICAMENTE las palabras que se encuentran "
+            "en la siguiente lista JSON, esta lista representa videos en LENGUAJE DE Señas. No inventes palabras que no estén en la lista, si alguna palabra no se encuentra en la lista, utiliza alguna similar que sí se encuentre para dar sentido a la frase, si se trata de un nombre propio, deberas deletrearlo utilizando las letras de la lista.\n\n"
             "La respuesta debe ser únicamente una URL en el formato exacto: "
             "http://127.0.0.1:5500/index.html?lista=[] — dentro de los [] deben ir las palabras "
-            "transcritas, separadas por comas y entre comillas, todas en minúsculas.\n\n"
+            "transcritas, separadas por comas y entre comillas, todas en MAYUSCULA CONSERVANDO EL MISMO FORMATO EN QUE VENIAN EN EL JSON.\n\n"
             f"Lista de palabras permitidas (JSON): {json.dumps(PALABRAS_DISPONIBLES, ensure_ascii=False)}"
         )
+        
         
         response = model.generate_content([prompt, audio_file])
         url = response.text.strip()  # Ahora se espera que sea solo la URL
@@ -65,10 +66,7 @@ def transcribe_audio():
         
         url = convert_audio_to_text_with_gemini(filepath)
         
-        try:
-            os.remove(filepath)
-        except:
-            pass
+
         
         # Abrir la URL directamente
         print(f"Abriendo en navegador: {url}")
@@ -80,7 +78,10 @@ def transcribe_audio():
 
 @app.route('/health', methods=['GET'])
 def health_check():
+    
     return jsonify({'status': 'API funcionando correctamente'})
 
+
 if __name__ == '__main__':
+    
     app.run(debug=True, host="0.0.0.0", port=5000)

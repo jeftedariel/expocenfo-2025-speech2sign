@@ -7,15 +7,15 @@ from ideaboard import IdeaBoard
 
 
 # Configuración WiFi
-WIFI_SSID = "UTN"
-WIFI_PASSWORD = None
+WIFI_SSID = "Sp"
+WIFI_PASSWORD = "gghh1447"
 
 # Configuración del endpoint
-IP_ADDRESS = "10.60.40.79"
+IP_ADDRESS = "192.168.50.65"
 PORT = 5000
 ENDPOINT_URL = "/transcribe"
 AUDIO_FILE = "grabacion.wav"
-CHUNK_SIZE = 1024  
+CHUNK_SIZE = 200
 
 ib = IdeaBoard()
 
@@ -162,7 +162,7 @@ def main():
     # Memoria final
     gc.collect()
     print(f"Memoria libre final: {gc.mem_free()} bytes")
-
+    ib.pixel=(0,0,0)
 # Ejecutar
 if __name__ == "__main__":
     try:
