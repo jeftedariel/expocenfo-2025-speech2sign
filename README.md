@@ -71,6 +71,12 @@ Tuvimos la oportunidad de reunirnos con un interpete de LESCO de la UTN, quien n
 
 <img width="1046" height=auto alt="image" src="https://github.com/user-attachments/assets/e32f32b2-c870-401d-ba08-714d9075b46f" />
 
+
+## Implementaciones a Futuro
+- Desarrollo de un app móvil o entorno web para subir las muestras de audio desde el micrófono de un celular o computadora y mostrar el resultado en LESCO
+
+- Entrar un modelo para la generación de Avatares y contar con un banco de videos más amplio en LESCO
+
 ## ⚙️ Diagramas y Prototipos del Microcontrolador
 
 
